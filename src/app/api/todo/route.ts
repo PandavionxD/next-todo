@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
+import * as yup from "yup";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -15,7 +16,7 @@ export async function GET(request: Request) {
 
   if (isNaN(skip)) {
     return NextResponse.json({
-      message: "Skipe tiene que se un número",
+      message: "Skip tiene que se un número",
       error: 404,
     });
   }
@@ -28,3 +29,28 @@ export async function GET(request: Request) {
     todo,
   });
 }
+
+const postScheme = yup.object({
+  description: yup.string().required(),
+  complete: yup.boolean().default(false).optional(),
+});
+
+export async function POST(request: Request) {
+  try {
+    const { complete, description } = await postScheme.validate(await request.json());
+    const todo = await prisma.todo.create({ data: { complete, description } });
+    console.log({ todo });
+    return NextResponse.json(todo);
+  } catch (error) {
+    return NextResponse.json({
+      message: "Ups, Hubo un error 🐕",
+      status: 400,
+    });
+  }
+}
+
+
+
+
+
+
