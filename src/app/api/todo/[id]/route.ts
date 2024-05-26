@@ -64,18 +64,19 @@ export async function PUT(request: Request, { params }: segments) {
 }
 
 const deleteScheme = yup.object({
-  id: yup.string()
+  id: yup.string(),
 });
 
 export async function DELETE(request: Request, segments: segments) {
   const { id } = segments.params;
   try {
-    const todo = await deleteScheme.validate(
+    const {count} :any = await deleteScheme.validate(
       await prisma.todo.deleteMany({ where: { id } })
     );
-    if (!todo) {
+    console.log({count})
+    if (count===0) {
       return NextResponse.json({
-        message: `Todo con ese ${id}, no existe 🐼`,
+        message: `Todo con ${id} no existe 🐼`,
         error: 404,
       });
     }
