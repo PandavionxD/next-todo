@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import next from "next";
 import { NextResponse, NextRequest } from "next/server";
 import * as yup from "yup";
 
@@ -58,6 +59,36 @@ export async function PUT(request: Request, { params }: segments) {
     return NextResponse.json({
       error,
       message: "Ups algo salio mal 🐧",
+    });
+  }
+}
+
+const deleteScheme = yup.object({
+  id: yup.string()
+});
+
+export async function DELETE(request: Request, segments: segments) {
+  const { id } = segments.params;
+  try {
+    const todo = await deleteScheme.validate(
+      await prisma.todo.deleteMany({ where: { id } })
+    );
+    if (!todo) {
+      return NextResponse.json({
+        message: `Todo con ese ${id}, no existe 🐼`,
+        error: 404,
+      });
+    }
+    console.log(`Todo borrado es ${todo}`);
+    return NextResponse.json({
+      message: "Todo borrado con éxito 🥶",
+      code: "ok",
+    });
+  } catch (error) {
+    console.log({ error });
+    return NextResponse.json({
+      message: "Ups algo salio mal, intentalo de nuevo 🐧",
+      error,
     });
   }
 }
