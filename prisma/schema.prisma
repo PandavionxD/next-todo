@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -21,3 +15,9 @@ model Todo {
   updatedAt   DateTime @updatedAt
 }
 
+model Employee {
+  id        Int      @id(map: "untitled_table_3_pkey") @default(autoincrement())
+  name      String   @db.VarChar
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+}

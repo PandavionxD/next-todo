@@ -1,4 +1,13 @@
+import { url } from 'inspector';
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images:{
+        remotePatterns:[{
+            protocol:'https',
+            hostname:'tailus.io'
+        }]
+    }
+};
 
 export default nextConfig;
