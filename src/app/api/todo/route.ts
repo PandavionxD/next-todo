@@ -39,7 +39,6 @@ export async function POST(request: Request) {
   try {
     const { complete, description } = await postScheme.validate(await request.json());
     const todo = await prisma.todo.create({ data: { complete, description } });
-    console.log({ todo });
     return NextResponse.json(todo);
   } catch (error) {
     return NextResponse.json({
@@ -49,6 +48,25 @@ export async function POST(request: Request) {
   }
 }
 
+
+export async function DELETE(request: Request) {
+  try {
+    const todo = await prisma.todo.deleteMany({ where:{
+      complete:true
+    } });
+    return NextResponse.json(
+      {
+        method:'Delete',
+        message:'Éxito'
+      }
+    );
+  } catch (error) {
+    return NextResponse.json({
+      message: "Ups, Hubo un error 🐕",
+      status: 400,
+    });
+  }
+}
 
 
 
