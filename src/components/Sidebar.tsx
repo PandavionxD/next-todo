@@ -22,7 +22,7 @@ export const routes = [
     id: 3,
     icon: <IoListOutline />,
     title: "Server Actions",
-    path: "/#",
+    path: "/dashboard/server-todos",
   },
 ];
 

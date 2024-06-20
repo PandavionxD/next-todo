@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import { apiTodo } from "@/Todos";
+import { DeleteTodoComplete, NewTodoActions } from "../Actions/Todo-Actions";
 
 export const NewTodo = () => {
   const router = useRouter();
@@ -12,10 +13,8 @@ export const NewTodo = () => {
   const newTodo = async (e: FormEvent) => {
     e.preventDefault();
     if (value.trim().length === 0) return;
-    console.log(" evento enviado: ", value);
-    const todo = await apiTodo.newTodo(value);
+    NewTodoActions(value)
     setvalue("");
-    router.refresh();
   };
 
   const deleteTodo = async () => {
@@ -45,7 +44,7 @@ export const NewTodo = () => {
 
       <button
         //TODO: onClick={ () => deleteCompleted() }
-        onClick={deleteTodo}
+        onClick={()=>DeleteTodoComplete()}
         type="button"
         className="flex items-center justify-center rounded ml-2 bg-red-400 p-2 text-white hover:bg-red-700 transition-all"
       >

@@ -1,4 +1,10 @@
 import { WidgetItem } from "@/components";
+import { Metadata } from "next";
+
+export const metadata:Metadata =  {
+  title : 'DashboardPage',
+  description:'Pagina principal - DashboardPage'
+}
 
 export default function DashboardPage() {
   return (
